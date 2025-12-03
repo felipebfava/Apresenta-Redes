@@ -1,0 +1,57 @@
+$TTL 86400 ; time to live de 24 horas para a zona
+
+; domínio da zona: angelcorp.com.br.
+; servidor master: ns.angelcorp.com.br.
+; e-mail do adm: admin@angelcorp.com.br = admin.angelcorp.com.br.
+
+@ IN SOA ns.angelcorp.com.br. admin.angelcorp.com.br. (
+    2024103001      ; Serial (YYYYMMDDNN)
+    3600            ; Refresh (1 hora)
+    900             ; Retry (15 minutos)
+    604800          ; Expire (1 semana)
+    86400 )         ; Negative Cache TTL (1 dia)
+
+; registro servidores autoritativos
+@ IN NS ns.angelcorp.com.br.    ; primário
+@ IN NS ns2.angelcorp.com.br.   ; secundário
+
+; registros A para IPv4
+ns          IN A 10.0.0.2   ; dns primário
+ns2         IN A 10.0.0.3   ; dns secundário
+www         IN A 10.0.0.4   ; servidor web
+ftp         IN A 10.0.0.5   ; FTP
+mail        IN A 10.0.0.6   ; SMPT
+intranet    IN A 10.0.0.7   ; intranet
+sip         IN A 10.0.0.8   ; servidor SIP/VoIP
+
+; o domínio ficará www.angelcorp.com.br.
+
+; registros AAAA (IPv6)
+ns          IN AAAA 2001:db8:cafe::2
+ns2         IN AAAA 2001:db8:cafe::3
+www         IN AAAA 2001:db8:cafe::4
+ftp         IN AAAA 2001:db8:cafe::5
+mail        IN AAAA 2001:db8:cafe::6
+intranet    IN AAAA 2001:db8:cafe::7
+sip         IN AAAA 2001:db8:cafe::8
+
+; registros CNAME (Aliases) - nomes alternativos apontando para outro domínio existente
+reports     IN CNAME www.angelcorp.com.br.
+docs        IN CNAME www.angelcorp.com.br.
+
+; registro MX (Mail eXchanger) para servidor de e-mail
+; toda vez que alguém enviar e-mail para @angelcorp.com.br o servidor que recebe é mail.angelcorp.com.br
+@ IN MX 10 mail.angelcorp.com.br.
+
+ftp IN CNAME www.angelcorp.com.br.
+
+; registro txt (SPF) quais servidores podem enviar e-mail usando o domínio
+; v=spf1 inicia política e versão do spf (Sender Policy Framework) protege contra falsificação e spam
+; ip4:10.0.0.5 permite que esse ip envie e-mail
+; spf.google.com autoriza o g-mail
+@ IN TXT "v=spf1 ip4:10.0.0.5 include:_spf.google.com ~all"
+
+; registro srv (Service Location)
+; serviço sip sob protocolo TCP com domínio angelcorp.com.br. usando porta 5060
+_sip._tcp.angelcorp.com.br. IN SRV 10 0 5060 sip.angelcorp.com.br.
+

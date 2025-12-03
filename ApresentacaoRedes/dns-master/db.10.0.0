@@ -1,0 +1,29 @@
+$TTL 86400 ; seta um time to live de 24 horas para a zona
+
+; registro SOA (Start of Authority) - contem info administrativa essencial sobre a zona, identificando o nome do servidor e o contato do adm do domínio
+; IN - internet;
+; SOA - quem é o master/adm da zona;
+; ns.angelcorp.com.br. é o DNS primário da zona pois é um FQDN (Nome de Domínio Totalmente Qualificado) completo 
+; admin.angelcorp.com.br. é o e-mail do adm o caracter @ é substituido por um ponto
+
+@ IN SOA ns.angelcorp.com.br. admin.angelcorp.com.br. (
+    2024103001      ; Serial (YYYYMMDDNN) Ano, mês, dia, edição
+    3600            ; Refresh (1 hora) em que o slave espera antes de perguntar ao master se a zona mudou
+    900             ; Retry (15 minutos) se o slave tentou fazer refresh e falhou, vai tentar novamente em 15min
+    604800          ; Expire (1 semana) se o slave não conseguir chamar o master ele para de responder pela zona
+    86400 )         ; Negative Cache TTL (1 dia) tempo em que o servidor vai guardar a resposta
+
+; servidores autoritativos da zona reversa
+; os resolvedores de nomes irão consultar esses servidores para descobrir o nome de um IP
+@ IN NS ns.angelcorp.com.br.    ; servidor master/adm
+@ IN NS ns2.angelcorp.com.br.   ; servidor slave
+
+; mapeamento reverso, cada linha/dígito representa o último octeto da zona 0.0.10.in-addr.arpa
+
+2       IN PTR ns.angelcorp.com.br.         ; representa 10.0.0.2 que corresponde a ns.angelcorp.com.br.
+3       IN PTR ns2.angelcorp.com.br.
+4       IN PTR www.angelcorp.com.br.        ; usado para a página http/s ou o site
+5       IN PTR ftp.angelcorp.com.br.        ; para o servidor ftp
+6       IN PTR mail.angelcorp.com.br.       ; para o servidor de e-mail SMTP
+7       IN PTR intranet.angelcorp.com.br.   ; para a rede interna
+8       IN PTR sip.angelcorp.com.br.        ; usado para VoIP (SIP = Session Initiation Protocol)

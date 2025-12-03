@@ -1,0 +1,15 @@
+
+; nome da zona direta tipo slave
+zone "angelcorp.com.br" {
+    type slave;
+    masters { 10.0.0.2; };   // IP do master
+    file "/var/cache/bind/angelcorp.com.br.db";
+};
+
+
+; nome da zona reversa da rede do tipo slave
+zone "0.0.10.in-addr.arpa" {
+    type slave;
+    masters { 10.0.0.2; };
+    file "/var/cache/bind/db.10.0.0";
+};
