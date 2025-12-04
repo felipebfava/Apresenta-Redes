@@ -23,7 +23,6 @@ $TTL 86400 ; seta um time to live de 24 horas para a zona
 2       IN PTR ns.angelcorp.com.br.         ; representa 10.0.0.2 que corresponde a ns.angelcorp.com.br.
 3       IN PTR ns2.angelcorp.com.br.
 4       IN PTR www.angelcorp.com.br.        ; usado para a página http/s ou o site
-5       IN PTR ftp.angelcorp.com.br.        ; para o servidor ftp
 6       IN PTR mail.angelcorp.com.br.       ; para o servidor de e-mail SMTP
 7       IN PTR intranet.angelcorp.com.br.   ; para a rede interna
 8       IN PTR sip.angelcorp.com.br.        ; usado para VoIP (SIP = Session Initiation Protocol)

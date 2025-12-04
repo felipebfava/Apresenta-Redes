@@ -1,15 +1,21 @@
 
-; nome da zona direta tipo slave
+// nome da zona direta tipo slave
 zone "angelcorp.com.br" {
     type slave;
     masters { 10.0.0.2; };   // IP do master
-    file "/var/cache/bind/angelcorp.com.br.db";
+    file "/var/cache/bind/zones/angelcorp.com.br.db";
 };
 
 
-; nome da zona reversa da rede do tipo slave
+// dns slave vai usar Zone transfer (AXFR/IXFR)
+// é o processo de replicar dados de zona DNS de um servidor DNS primário para um servidor DNS secundário, garantindo consistência e redundância.
+// AXFR é uma transferência completa que envia todos os registros da zona,
+// enquanto IXFR é uma transferência incremental que envia apenas as alterações desde a última atualização
+
+
+// nome da zona reversa da rede do tipo slave
 zone "0.0.10.in-addr.arpa" {
     type slave;
     masters { 10.0.0.2; };
-    file "/var/cache/bind/db.10.0.0";
+    file "/var/cache/bind/zones/db.10.0.0";
 };

@@ -16,10 +16,10 @@ $TTL 86400 ; time to live de 24 horas para a zona
 @ IN NS ns2.angelcorp.com.br.   ; secundário
 
 ; registros A para IPv4
+; mapeamento do nome de domínio para o endereço IPv4
 ns          IN A 10.0.0.2   ; dns primário
 ns2         IN A 10.0.0.3   ; dns secundário
 www         IN A 10.0.0.4   ; servidor web
-ftp         IN A 10.0.0.5   ; FTP
 mail        IN A 10.0.0.6   ; SMPT
 intranet    IN A 10.0.0.7   ; intranet
 sip         IN A 10.0.0.8   ; servidor SIP/VoIP
@@ -30,28 +30,31 @@ sip         IN A 10.0.0.8   ; servidor SIP/VoIP
 ns          IN AAAA 2001:db8:cafe::2
 ns2         IN AAAA 2001:db8:cafe::3
 www         IN AAAA 2001:db8:cafe::4
-ftp         IN AAAA 2001:db8:cafe::5
 mail        IN AAAA 2001:db8:cafe::6
 intranet    IN AAAA 2001:db8:cafe::7
 sip         IN AAAA 2001:db8:cafe::8
 
-; registros CNAME (Aliases) - nomes alternativos apontando para outro domínio existente
-reports     IN CNAME www.angelcorp.com.br.
-docs        IN CNAME www.angelcorp.com.br.
+; registros CNAME (Canonical Name) - nomes alternativos apontando para outro domínio existente
+; servem como um alias ou apelido que redireciona um nome de domínio ou subdomínio para outro nome de domínio
+relatorios     IN CNAME www.angelcorp.com.br.
+docs           IN CNAME www.angelcorp.com.br.
 
 ; registro MX (Mail eXchanger) para servidor de e-mail
 ; toda vez que alguém enviar e-mail para @angelcorp.com.br o servidor que recebe é mail.angelcorp.com.br
-@ IN MX 10 mail.angelcorp.com.br.
+; @: Representa o domínio principal (angelcorp.com.br)
+; IN MX: Indica o tipo de registro DNS sendo definido (Internet Mail Exchange)
+; 10: É a preferência ou prioridade. Um número menor indica uma preferência maior; se houver vários registros MX, o servidor de envio tentará primeiro o registro com o menor número.
+; mail.angelcorp.com.br.: É o nome de host (ou FQDN - Fully Qualified Domain Name) do servidor de email responsável por receber emails para o domínio
 
-ftp IN CNAME www.angelcorp.com.br.
+@ IN MX 10 mail.angelcorp.com.br.
 
 ; registro txt (SPF) quais servidores podem enviar e-mail usando o domínio
 ; v=spf1 inicia política e versão do spf (Sender Policy Framework) protege contra falsificação e spam
-; ip4:10.0.0.5 permite que esse ip envie e-mail
+; ip4:10.0.0.6 permite que esse ip envie e-mail
 ; spf.google.com autoriza o g-mail
-@ IN TXT "v=spf1 ip4:10.0.0.5 include:_spf.google.com ~all"
+@ IN TXT "v=spf1 ip4:10.0.0.6 include:_spf.google.com ~all"
 
-; registro srv (Service Location)
+; registro srv (Service Location) para SIP (protocolo para chamadas VoIP)
 ; serviço sip sob protocolo TCP com domínio angelcorp.com.br. usando porta 5060
 _sip._tcp.angelcorp.com.br. IN SRV 10 0 5060 sip.angelcorp.com.br.
 

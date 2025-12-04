@@ -1,21 +1,21 @@
 
-; nome da zona direta tipo master
+// nome da zona direta tipo master
 zone "angelcorp.com.br" {
     type master; //primary
-    file "/etc/bind/db.angelcorp.com.br";
+    file "/etc/bind/zones/db.angelcorp.com.br";
     
     allow-transfer { 10.0.0.3; }; //slave
     also-notify { 10.0.0.3; };
 };
 
-; file indica onde está o arquivo de zona direta com os registros
-; allow-transfer replica os registros DNS do master para o slave garantindo redundância
-; also-notify após cada mudança no serial da zona o master informa o slave, sem isso o slave só atualiza no refresh (1h)
+// file indica onde está o arquivo de zona direta com os registros
+// allow-transfer replica os registros DNS do master para o slave garantindo redundância
+// also-notify após cada mudança no serial da zona o master informa o slave, sem isso o slave só atualiza no refresh (1h)
 
-; nome da zona reversa da rede do tipo master
+// nome da zona reversa da rede do tipo master
 zone "0.0.10.in-addr.arpa" {
     type master; //primary
-    file "/etc/bind/db.10.0.0";
+    file "/etc/bind/zones/db.10.0.0";
 
     allow-transfer { 10.0.0.3; }; //slave
     also-notify { 10.0.0.3; };

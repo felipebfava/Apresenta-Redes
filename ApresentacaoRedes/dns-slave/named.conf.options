@@ -1,19 +1,20 @@
 options {
-    directory "/var/cache/bind"; // onde o bind9 irá armazenar os arquivos, cache e dados temporários
-    listen-on-v6 { any; }; // o servidor vai escutar conexões DNS para IPv6 em todas as interfaces na porta padrão 53
-    listen-on { any; }; // mesma coisa porém para IPv4
-    recursion yes; // o servidor consegue resolver nomes que não são das suas zonas autoritativas, pode sofrer DDOS
-    allow-recursion { localnets; }; // quem poderá usar a recursão, no nosso caso, a rede do próprio servidor
-    allow-query { localnets; }; // quem pode consultar esse servidor { localnets; }; { 10.0.0.0/24; } - produção; { any; } - servidor público;
-    allow-query-cache { localnets; }; // quem pode usar os resultados que estão armazenados em cache, se trata de mais uma camada de segurança
+    directory "/var/cache/bind";        // onde o bind9 irá armazenar os arquivos, cache e dados temporários
+    listen-on-v6 { any; };              // o servidor vai escutar conexões DNS para IPv6 em todas as interfaces na porta padrão 53
+    listen-on { any; };                 // mesma coisa porém para IPv4
+    recursion yes;                      // o servidor consegue resolver nomes que não são das suas zonas autoritativas, pode sofrer DDOS
+    allow-recursion { localnets; };     // quem poderá usar a recursão, no nosso caso, a rede do próprio servidor
+    allow-query { localnets; };         // quem pode consultar esse servidor { localnets; }; { 10.0.0.0/24; } - produção; { any; } - servidor público;
+    allow-query-cache { localnets; };   // quem pode usar os resultados que estão armazenados em cache, se trata de mais uma camada de segurança
 
-    // outros servidores dns, como google e cloudflare
+    // consultas que não podem ser resolvidas localmente
+    // encaminhamos para outros servidores
     forwarders {
         8.8.8.8;
         1.1.1.1;
-    }; // direct requests it cannot answer to other DNS servers
+    };
 
-    dnssec-validation auto; // ativa a validação de DNSSEC, verificando autenticidade da assinatura, impedindo dns spoofing - redirecionamento malicioso
+    dnssec-validation auto;             // ativa a validação de DNSSEC, verificando autenticidade da assinatura, impedindo dns spoofing - redirecionamento malicioso
     
     // recursion yes: pode causar DNS amplification, consiste em DDOS (ataque de Negação de Serviço Distribuído) em servidores vulneráveis
 };
